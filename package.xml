@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Meta>
+  <title>Misc mods</title>
+  <id>me.pocke.misc</id>
+  <author>Masataka Pocke Kuwabara</author>
+  <loadPriority>100</loadPriority>
+  <version>0.23.188</version>
+  <tags></tags>
+  <description>
+  </description>
+</Meta>
