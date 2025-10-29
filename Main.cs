@@ -1,5 +1,6 @@
 using BepInEx;
 using HarmonyLib;
+using UnityEngine;
 
 namespace MiscMods;
 
@@ -21,6 +22,18 @@ internal class MiscMods : BaseUnityPlugin
 
     var harmony = new Harmony(ModInfo.Guid);
     harmony.PatchAll();
+  }
+  private void Update()
+  {
+    if (!EClass.core.IsGameStarted)
+    {
+      return;
+    }
+
+    if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.M))
+    {
+      BuildMusium.Build();
+    }
   }
 
   public static void Log(object message)
