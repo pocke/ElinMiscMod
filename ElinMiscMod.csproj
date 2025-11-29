@@ -76,6 +76,12 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <Private>False</Private>
     </Reference>
+
+    <Reference Include="Steamworks">
+      <HintPath>$(ElinGamePath)\Elin_Data\Managed\com.rlabrecque.steamworks.net.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

@@ -22,7 +22,10 @@ internal class MiscMods : BaseUnityPlugin
 
     var harmony = new Harmony(ModInfo.Guid);
     harmony.PatchAll();
+
+    RecordVersion.Run();
   }
+
   private void Update()
   {
     if (!EClass.core.IsGameStarted)
