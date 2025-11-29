@@ -12,7 +12,14 @@ public static class BuildMusium
     var figures = EClass.pc.things.List(IsFigure, onlyAccessible: true);
     foreach (var thing in figures)
     {
-      var chara = CharaGen.Create(thing.c_idRefCard);
+      SourceChara.Row row;
+      if (!EClass.sources.charas.map.TryGetValue(thing.c_idRefCard, out row))
+        continue;
+
+      var card = row.model;
+      if (!card.isChara)
+        continue;
+      var chara = card.Chara;
       if (chara == null || chara.IsMultisize)
         continue;
 
