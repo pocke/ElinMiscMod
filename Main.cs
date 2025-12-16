@@ -37,6 +37,21 @@ internal class MiscMods : BaseUnityPlugin
     {
       BuildMusium.Build();
     }
+
+    if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.L))
+    {
+      var i = 0;
+      while (true)
+      {
+        Rand.SetSeed(EClass.game.seed + EClass.player.stats.days + i);
+        if (EClass.rnd(5) == 0)
+        {
+          Log($"Day + {i}: Lucky day!");
+          break;
+        }
+        i++;
+      }
+    }
   }
 
   public static void Log(object message)
