@@ -198,15 +198,18 @@ internal static class CsvExport
         ldc.Add(constant.Value);
         continue;
       }
-      if ((ins.opcode == OpCodes.Call || ins.opcode == OpCodes.Callvirt)
-          && ins.operand is MethodInfo m
-          && m.DeclaringType == typeof(SourceData)
-          && m.Name.StartsWith("Get"))
+      if (ins.opcode == OpCodes.Call || ins.opcode == OpCodes.Callvirt)
       {
-        if (ldc.Count > 0)
+        if (ins.operand is MethodInfo m
+            && m.DeclaringType == typeof(SourceData)
+            && m.Name.StartsWith("Get")
+            && ldc.Count > 0)
         {
           pendingColumn = ldc[0];
         }
+        // Get* 以外の call でも ldc は引数として消費されたとみなしてクリア
+        // (例: field = Helper.X() + GetStr(2) のようなケースで Helper.X の前に積んだ
+        // 定数が残って次の Get* の引数解析を狂わせるのを防ぐ)
         ldc.Clear();
         continue;
       }
@@ -303,6 +306,10 @@ internal static class CsvExport
 
   private static bool IsExportableType(Type t)
   {
+    if (t.IsEnum)
+    {
+      return true;
+    }
     if (t == typeof(string) || t == typeof(int) || t == typeof(long) || t == typeof(bool)
         || t == typeof(float) || t == typeof(double) || t == typeof(byte))
     {
@@ -311,7 +318,8 @@ internal static class CsvExport
     if (t.IsArray)
     {
       var et = t.GetElementType();
-      return et == typeof(string) || et == typeof(int) || et == typeof(float) || et == typeof(double)
+      return et.IsEnum
+             || et == typeof(string) || et == typeof(int) || et == typeof(float) || et == typeof(double)
              || et == typeof(bool) || et == typeof(long) || et == typeof(byte);
     }
     return false;
