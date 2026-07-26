@@ -52,6 +52,17 @@ internal class MiscMods : BaseUnityPlugin
         i++;
       }
     }
+
+    if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.T))
+    {
+      foreach (var creature in EClass.player.codex.creatures)
+      {
+        CardRow cardRow = EClass.sources.cards.map.TryGetValue(creature.Key);
+        var hasNoRandomProduct = cardRow != null && !cardRow.HasTag(CTAG.noRandomProduct);
+        Log($"{creature.Key}: {creature.Value.kills}, {creature.Value.droppedCard} {cardRow != null} {hasNoRandomProduct}");
+      }
+
+    }
   }
 
   public static void Log(object message)
